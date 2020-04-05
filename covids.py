@@ -1,48 +1,48 @@
 #!/usr/bin/env python
-from bs4 import BeautifulSoup
-import requests
-import pandas as pd
-import re
-import numpy as np
 import argparse
 
-pd.set_option('expand_frame_repr', False)  # To view all the variables in the console
 
-url = "https://coronavirus.jhu.edu/data/mortality"
-res = requests.get(url)
-soup = BeautifulSoup(res.text, "html5lib")
+def top_10_with_israel(by: str, ascending: bool = False):
+    from bs4 import BeautifulSoup
+    import requests
+    import pandas as pd
+    import re
+    import numpy as np
+    pd.set_option('expand_frame_repr', False)  # To view all the variables in the console
 
-mytable = soup.select("td")
-updated_for = soup.select("strong")
+    url = "https://coronavirus.jhu.edu/data/mortality"
+    res = requests.get(url)
+    soup = BeautifulSoup(res.text, "html5lib")
 
-table_lst = [item.text for item in mytable]
+    mytable = soup.select("td")
+    updated_for = soup.select("strong")
 
-update_datetime = [item.text for item in updated_for][0]
-regex = r'^This page was '
-update_datetime = re.sub(regex,"",update_datetime)
-update_datetime = update_datetime[0].upper() + update_datetime[1:]
+    table_lst = [item.text for item in mytable]
 
-d = {'country' : table_lst[0::5], 'confirmed' : table_lst[1::5],
-     'deaths' : table_lst[2::5], 'case_fatality_pct' : table_lst[3::5], 'deaths_per_100k_pop' : table_lst[4::5]}
+    update_datetime = [item.text for item in updated_for][0]
+    regex = r'^This page was '
+    update_datetime = re.sub(regex,"",update_datetime)
+    update_datetime = update_datetime[0].upper() + update_datetime[1:]
 
-df = pd.DataFrame(d)
+    d = {'country' : table_lst[0::5], 'confirmed' : table_lst[1::5],
+         'deaths' : table_lst[2::5], 'case_fatality_pct' : table_lst[3::5], 'deaths_per_100k_pop' : table_lst[4::5]}
 
-# fix types
-df['confirmed'] = df['confirmed'].apply(lambda x: re.sub(r',',"",x))
-df['confirmed'] = pd.to_numeric(df['confirmed'])
+    df = pd.DataFrame(d)
 
-df['deaths'] = df['deaths'].apply(lambda x: re.sub(r',',"",x))
-df['deaths'] = pd.to_numeric(df['deaths'])
+    # fix types
+    df['confirmed'] = df['confirmed'].apply(lambda x: re.sub(r',',"",x))
+    df['confirmed'] = pd.to_numeric(df['confirmed'])
 
-df['case_fatality_pct'] = df['case_fatality_pct'].apply(lambda x: re.sub(r'%',"",x))
-df['case_fatality_pct'] = pd.to_numeric(df['case_fatality_pct'])
+    df['deaths'] = df['deaths'].apply(lambda x: re.sub(r',',"",x))
+    df['deaths'] = pd.to_numeric(df['deaths'])
 
-# replace missing values
-df['deaths_per_100k_pop'] = df['deaths_per_100k_pop'].replace(to_replace='nan', value=np.nan)
-df['deaths_per_100k_pop'] = pd.to_numeric(df['deaths_per_100k_pop'])
+    df['case_fatality_pct'] = df['case_fatality_pct'].apply(lambda x: re.sub(r'%',"",x))
+    df['case_fatality_pct'] = pd.to_numeric(df['case_fatality_pct'])
 
+    # replace missing values
+    df['deaths_per_100k_pop'] = df['deaths_per_100k_pop'].replace(to_replace='nan', value=np.nan)
+    df['deaths_per_100k_pop'] = pd.to_numeric(df['deaths_per_100k_pop'])
 
-def top_10_with_israel(df: pd.DataFrame, by: str, ascending: bool = False) -> pd.DataFrame:
     temp_df = (df.sort_values(by=by, ascending=ascending)
                .reset_index()
                .drop('index', axis=1)
@@ -55,6 +55,7 @@ def top_10_with_israel(df: pd.DataFrame, by: str, ascending: bool = False) -> pd
     hide_index = [''] * len(result_df)
     result_df.index = hide_index
     return result_df
+
 
 # CLI
 # create the parser
@@ -69,4 +70,4 @@ parser.add_argument('-asc', '--ascending', action='store_true',
                     help='an optional argument for displaying results in ascending order')
 
 args = parser.parse_args()
-print(top_10_with_israel(df, by=args.statistic, ascending=args.ascending))
+print(top_10_with_israel(by=args.statistic, ascending=args.ascending))
