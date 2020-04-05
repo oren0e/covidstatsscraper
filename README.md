@@ -5,7 +5,7 @@ This is a command line tool to get statistics in a form of a table with the top 
 You can use this script to setup a cronjob and get a daily report to console.
 
 ## Installation
-**Note: These instructions works for UNIX-based operating systems and had been tested on MacOS with Python 3.7.3.**
+**Note: These instructions work for UNIX-based operating systems and had been tested on MacOS with Python 3.7.3.**
 1. Clone the repo to some folder
 2. Open the terminal in the folder you've cloned the repo to and give execution permissions to `setup.sh` (`chmod +x setup.sh`)
 3. Run `./setup.sh`. Note that you must have `/usr/local/bin` in your system `$PATH`.
