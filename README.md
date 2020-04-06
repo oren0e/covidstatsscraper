@@ -20,5 +20,6 @@ If you want to save the output with `confirmed` to `myfile.csv` instead of print
 For help, open the terminal and type `covids -h` to get the list of commands and usage.  
 
 ## TODO
-- Make it working on Windows.
-- Improve response speed when issuing only with help flag (`covids -h`)
+- Make it work on Windows.
+- Improve response speed when issuing the command with the help flag only (`covids -h`)
+- Add the option to choose other country (instead of Israel) to be compared to the top 10 countries
