@@ -11,8 +11,12 @@ You can use this script to setup a cronjob and get a daily report to console.
 3. Run `./setup.sh`. Note that you must have `/usr/local/bin` in your system `$PATH`.
 
 ## Usage
-`$ covids variable [--ascending]`.  
+`$ covids variable [--ascending] [--csv] path`.  
 For example, to see the top 10 countries with the highest confirmed cases (along with Israel being the 11th country with its respective rank) type: `covids confirmed`.  
+
+If you want to save the output with `confirmed` to `myfile.csv` instead of printing to console, type:
+`$ covids confirmed -csv /path/to/myfile.csv`
+
 For help, open the terminal and type `covids -h` to get the list of commands and usage.  
 
 ## TODO
