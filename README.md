@@ -16,4 +16,5 @@ For example, to see the top 10 countries with the highest confirmed cases (along
 For help, open the terminal and type `covids -h` to get the list of commands and usage.  
 
 ## TODO
-- add option to write to csv
+- Make it working on Windows.
+- Improve response speed when issuing only with help flag (`covids -h`)
