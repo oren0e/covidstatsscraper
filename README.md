@@ -8,7 +8,7 @@ You can use this script to setup a cronjob and get a daily report to console.
 **Note: These instructions work for UNIX-based operating systems and had been tested on MacOS with Python 3.7.3.**
 1. Clone the repo to some folder
 2. Open the terminal in the folder you've cloned the repo to and give execution permissions to `setup.sh` (`chmod +x setup.sh`)
-3. Run `./setup.sh`. Note that you must have `/usr/local/bin` in your system `$PATH`.
+3. Run `./setup.sh`.
 
 ## Usage
 `$ covids variable [--ascending] [--csv] path`.  
