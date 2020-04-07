@@ -11,10 +11,12 @@ pd.set_option('expand_frame_repr', False)  # To view all the variables in the co
 class Covid:
 
     def __init__(self, by: str, ascending: bool = False) -> None:
-        """Scrape and get a dataframe at the end."""
-
-        self.by = by
+        self.by: str = by
         self.ascending: bool = ascending
+        self.update_datetime: str = ''
+
+    def get_data(self) -> None:
+        """Scrape and get a dataframe at the end."""
 
         url = "https://coronavirus.jhu.edu/data/mortality"
         res = requests.get(url)
