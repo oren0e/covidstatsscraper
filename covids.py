@@ -18,14 +18,19 @@ if __name__ == '__main__':
                         help='an optional argument to save as csv file: -csv [path]')
     args = parser.parse_args()
 
-    if args.statistic is None:
-        pass
-    else:
-        if args.csv is not None:
-            covd = Covid(by=args.statistic, ascending=args.ascending)
-            covd.get_data()
-            covd.write_to_csv(path=args.csv)
+    try:
+        if args.statistic is None:
+            pass
         else:
-            covd = Covid(by=args.statistic, ascending=args.ascending)
-            covd.get_data()
-            print(covd.top_10_table())
+            if args.csv is not None:
+                covd = Covid(by=args.statistic, ascending=args.ascending)
+                covd.get_data()
+                covd.write_to_csv(path=args.csv)
+            else:
+                covd = Covid(by=args.statistic, ascending=args.ascending)
+                covd.get_data()
+                print(covd.top_10_table())
+    except KeyError:
+        print("Invalid parameter")
+    except:
+        print("Something went wrong")
